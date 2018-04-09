@@ -28,7 +28,8 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue'],
     alias: {
-
+      components: ROOT + '/src/components',
+      pages: ROOT + '/src/pages'
     }
   },
   module: {
