@@ -4,3 +4,9 @@
 
 * vue
 * vuex
+
+## Start
+
+```
+npm install && npm start
+```
