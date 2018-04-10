@@ -8,6 +8,7 @@
 ## Start
 
 ```
+cd vue
 npm install && npm start
 ```
 
