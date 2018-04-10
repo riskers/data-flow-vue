@@ -3,8 +3,20 @@
     <header :class="$style.header">
       <h3 :class="$style.title">{{title}}</h3>
       <div :class="$style.links">
-        <a href="javascript:void(0)" :class="$style.link" onClick={onClickPrev}> &lt; </a>
-        <a href="javascript:void(0)" :class="$style.link" onClick={onClickNext}> &gt; </a>
+        <a
+          href="javascript:void(0)"
+          :class="$style.link"
+          @click="searchPrev"
+        >
+          &lt;
+        </a>
+        <a
+          href="javascript:void(0)"
+          :class="$style.link"
+          @click="searchNext"
+        >
+          &gt;
+        </a>
       </div>
     </header>
     <ul :class="$style.list">
@@ -39,6 +51,14 @@ export default {
     'loading',
     'icon',
   ],
+  methods: {
+    searchPrev: function() {
+      this.$emit('searchPrev')
+    },
+    searchNext: function() {
+      this.$emit('searchNext')
+    }
+  }
 }
 </script>
 
@@ -99,4 +119,3 @@ export default {
   border: 1px solid #ccc;
 }
 </style>
-

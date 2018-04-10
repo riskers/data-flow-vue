@@ -14,6 +14,8 @@
           :data="userList"
           :loading="loading"
           icon=">"
+          @searchPrev="searchPrev"
+          @searchNext="searchNext"
         />
       </div>
     </div>
@@ -32,7 +34,7 @@ export default {
   data() {
     return {
       username: '',
-      page: 1,
+      userPageIndex: 1,
     }
   },
   computed: {
@@ -46,7 +48,26 @@ export default {
     searchUser: function() {
       this.$store.dispatch('searchUser', {
         username: this.username,
-        page: this.page,
+        page: this.userPageIndex,
+      })
+    },
+    searchPrev: function() {
+      if (this.userPageIndex == 1)
+        return
+
+      this.userPageIndex--
+
+      this.$store.dispatch('searchUser', {
+        username: this.username,
+        page: this.userPageIndex,
+      })
+    },
+    searchNext: function() {
+      this.userPageIndex++
+
+      this.$store.dispatch('searchUser', {
+        username: this.username,
+        page: this.userPageIndex,
       })
     }
   }
