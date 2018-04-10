@@ -6,14 +6,14 @@
         <a
           href="javascript:void(0)"
           :class="$style.link"
-          @click="searchPrev"
+          @click="onClickPrev"
         >
           &lt;
         </a>
         <a
           href="javascript:void(0)"
           :class="$style.link"
-          @click="searchNext"
+          @click="onClickNext"
         >
           &gt;
         </a>
@@ -26,6 +26,7 @@
         <li v-else
           v-for="e in data"
           :key="e.id" :class="$style.item"
+          @click="onClickItem(e)"
         >
           <img :src="e.avatar_url" :class="$style.pic"/>
           {{e.login}}
@@ -44,19 +45,27 @@ export default {
   components: {
     Loading
   },
-  props: [
-    'list-style',
-    'title',
-    'data',
-    'loading',
-    'icon',
-  ],
-  methods: {
-    searchPrev: function() {
-      this.$emit('searchPrev')
+  props: {
+    'list-style': Object,
+    icon: {
+      type: String,
+      default: '',
     },
-    searchNext: function() {
-      this.$emit('searchNext')
+    title: String,
+    data: Array,
+    loading: Boolean,
+    icon: String,
+    error: String,
+  },
+  methods: {
+    onClickPrev: function(e) {
+      this.$emit('clickPrev')
+    },
+    onClickNext: function() {
+      this.$emit('clickNext')
+    },
+    onClickItem: function(user) {
+      this.$emit('clickItem', user)
     }
   }
 }

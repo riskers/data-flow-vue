@@ -4,18 +4,42 @@
       v-model="username"
     />
 
-    <button @click="searchUser({username: username, page: userPageIndex})">search</button>
+    <button @click="searchUser({username: username, page: 1})">search</button>
 
     <div :class="$style.main">
       <div :class="$style.users">
         <List
           :list-style="{cursor: 'pointer'}"
-          :title="title"
-          :data="userList"
-          :loading="loading"
+          :title="`users (${users.total})`"
+          :data="users.data"
+          :loading="users.loading"
+          :error="users.error"
           icon=">"
-          @searchPrev="searchPrev"
-          @searchNext="searchNext"
+          @clickPrev="searchPrev"
+          @clickNext="searchNext"
+          @clickItem="selectItem"
+        />
+      </div>
+
+      <div :class="$style.followers">
+        <List
+          title="fllowers"
+          :data="followers.data"
+          :loading="followers.loading"
+          :error="followers.error"
+          @clickPrev="followersPrev"
+          @clickNext="followersNext"
+        />
+      </div>
+
+      <div :class="$style.followings">
+        <List
+          title="followings"
+          :data="followings.data"
+          :loading="followings.loading"
+          :error="followings.error"
+          @clickPrev="followingsPrev"
+          @clickNext="followingsNext"
         />
       </div>
     </div>
@@ -34,19 +58,24 @@ export default {
   data() {
     return {
       username: '',
+      selectUsername: '',
       userPageIndex: 1,
+      followersPageIndex: 1,
+      followeringPageIndex: 1,
     }
   },
   computed: {
     ...mapState({
-      loading: state => state.users.loading,
-      title: state => `users ${state.users.total}`,
-      userList: state => state.users.data,
+      users: state => state.users,
+      followers: state => state.followers,
+      followings: state => state.followings,
     })
   },
   methods: {
     ...mapActions({
-      searchUser: 'searchUser'
+      searchUser: 'searchUser',
+      getFollowers: 'getFollowers',
+      getFollowings: 'getFollowings',
     }),
     searchPrev: function() {
       if (this.userPageIndex == 1)
@@ -72,12 +101,61 @@ export default {
         username: this.username,
         page: this.userPageIndex,
       })
+    },
+    selectItem: function(item) {
+      this.followersPageIndex = 1
+      this.followeringPageIndex = 1
+      this.selectUsername = item.login
 
-      // this equal to below:
-      /* this.$store.dispatch('searchUser', {
-        username: this.username,
-        page: this.userPageIndex,
-      }) */
+      this.getFollowers({
+        username: item.login,
+        page: this.followersPageIndex,
+      })
+
+      this.getFollowings({
+        username: item.login,
+        page: this.followeringPageIndex,
+      })
+    },
+
+    followersPrev: function() {
+      if (this.followersPageIndex == 1)
+        return
+
+      this.followersPageIndex--
+
+      this.getFollowers({
+        username: this.selectUsername,
+        page: this.followersPageIndex,
+      })
+    },
+    followersNext: function() {
+      this.followersPageIndex++
+
+      this.getFollowers({
+        username: this.selectUsername,
+        page: this.followersPageIndex,
+      })
+    },
+
+    followingsPrev: function() {
+      if (this.followeringPageIndex == 1)
+        return
+
+      this.followeringPageIndex--
+
+      this.getFollowings({
+        username: this.selectUsername,
+        page: this.followeringPageIndex,
+      })
+    },
+    followingsNext: function() {
+      this.followeringPageIndex++
+
+      this.getFollowings({
+        username: this.selectUsername,
+        page: this.followeringPageIndex,
+      })
     }
   }
 }
@@ -90,5 +168,21 @@ export default {
 }
 .users {
   width: 300px;
+}
+.followers {
+  width: 300px;
+  margin-left: 50px;
+}
+
+.followings {
+  width: 300px;
+  margin-left: 50px;
+}
+
+.users,
+.followers,
+.followings {
+  padding: 10px;
+  border: 1px solid #ccc;
 }
 </style>
