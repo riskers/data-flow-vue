@@ -4,7 +4,7 @@
       v-model="username"
     />
 
-    <button @click="searchUser">search</button>
+    <button @click="searchUser({username: username, page: userPageIndex})">search</button>
 
     <div :class="$style.main">
       <div :class="$style.users">
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import List from 'components/List'
 
 export default {
@@ -45,30 +45,39 @@ export default {
     })
   },
   methods: {
-    searchUser: function() {
-      this.$store.dispatch('searchUser', {
-        username: this.username,
-        page: this.userPageIndex,
-      })
-    },
+    ...mapActions({
+      searchUser: 'searchUser'
+    }),
     searchPrev: function() {
       if (this.userPageIndex == 1)
         return
 
       this.userPageIndex--
 
-      this.$store.dispatch('searchUser', {
+      this.searchUser({
         username: this.username,
         page: this.userPageIndex,
       })
+
+      // this equal to below:
+      /* this.$store.dispatch('searchUser', {
+        username: this.username,
+        page: this.userPageIndex,
+      }) */
     },
     searchNext: function() {
       this.userPageIndex++
 
-      this.$store.dispatch('searchUser', {
+      this.searchUser({
         username: this.username,
         page: this.userPageIndex,
       })
+
+      // this equal to below:
+      /* this.$store.dispatch('searchUser', {
+        username: this.username,
+        page: this.userPageIndex,
+      }) */
     }
   }
 }
