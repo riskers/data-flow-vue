@@ -23,7 +23,7 @@
 
       <div :class="$style.followers">
         <List
-          title="fllowers"
+          :title="`${selectUsername} fllowers`"
           :data="followers.data"
           :loading="followers.loading"
           :error="followers.error"
@@ -34,7 +34,7 @@
 
       <div :class="$style.followings">
         <List
-          title="followings"
+          :title="`${selectUsername} followings`"
           :data="followings.data"
           :loading="followings.loading"
           :error="followings.error"
