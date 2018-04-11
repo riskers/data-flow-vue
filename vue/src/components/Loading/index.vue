@@ -2,36 +2,5 @@
   <div :class="$style.loading"></div>
 </template>
 
-<script>
-export default {
-	name: 'Loading'
-}
-</script>
-
-<style module>
-.loading{
-	min-width:2px;
-	min-height:2px;
-	display:inline-block;
-	box-shadow:
-		2px 0 currentColor ,
-		6px 0 currentColor ,
-		10px 0 currentColor ;
-	-webkit-animation:dot 3s infinite steps(1,start);
-}
-
-@-webkit-keyframes dot{
-	25%{
-		box-shadow:none;
-	}
-	50%{
-		box-shadow:
-			2px 0 currentColor ;
-	}
-	75%{
-		box-shadow:
-			2px 0 currentColor ,
-			6px 0 currentColor ;
-	}
-}
-</style>
+<script src="./index.js"></script>
+<style module src="./style.css"></style>
