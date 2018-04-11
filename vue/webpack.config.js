@@ -26,8 +26,9 @@ module.exports = {
     port: 8888
   },
   resolve: {
-    extensions: ['.js', '.vue'],
+    extensions: ['.vue', '.js'],
     alias: {
+      'vue$': 'vue/dist/vue.esm.js',
       components: ROOT + '/src/components',
       pages: ROOT + '/src/pages'
     }
@@ -42,7 +43,9 @@ module.exports = {
       {
         test: /\.js$/,
         use: 'babel-loader',
-        exclude: /node_modules/
+        include: [
+          ROOT + "/src"
+        ]
       }
     ]
   }
